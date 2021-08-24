@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <div id="app">
+        <div>
+            <input type="text" placeholder="输入搜索的值" v-model="keyword">
+            <li v-for="item in filterList" :key="item.name">{{item.name}}-{{item.age}}</li>
+           <button @click="Sorttype=1">升序</button>
+           <button @click="Sorttype=2">降序</button>
+           <button @click="Sorttype=0">还原</button>
+        </div>
+
+    </div>
+    
+
+    <script>
+        const vm = new Vue({
+            el:"#app",
+            data(){
+                return {
+                    Sorttype:0,
+                    keyword:'',
+                    list:[{
+                        name:"周冬雨",
+                        age:16
+                    },{
+                        name:"马冬梅",
+                        age:26
+                    },{
+                        name:'周星驰',
+                        age:26
+                    },{
+                        name:"周润发",
+                        age:28
+                    }],
+
+                }
+            },
+            //计算属性的强大之处，当computed依赖中的属性（响应式）发生变化时，整个计算属性将重新计算
+            computed:{
+                //val:新值
+                filterList(){
+                    let arr = this.list.filter(i=>{
+                        return i.name.indexOf(this.keyword) !== -1;
+                    })
+                    if(this.Sorttype){
+                        arr.sort((i,j)=>{
+                            return this.Sorttype==1?i.age-j.age:j.age-i.age
+                        });
+                    }
+                    return arr;
+                }
+            },
+   
+
+        });
+
+        
+    </script>
+    
+</body>
+</html>
